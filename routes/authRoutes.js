@@ -9,12 +9,16 @@ const apiLimiter = rateLimiter({
     message: 'Too many request from this IP address, please  try again after 15 minutes'
 })
 
-import {register, login, updateUser} from '../controller/authController.js'
+import {register, login, updateUser, getCurrentUser,logout} from '../controller/authController.js'
 import authenticateUser from '../middlewares/auth.js'
 import testUser from '../middlewares/testUser.js'
 
 router.route('/register').post(apiLimiter, register)
 router.route('/login').post(apiLimiter,login)
 router.route('/updateUser').patch(authenticateUser,testUser, updateUser)
+router.route('/getCurrentUser').get(authenticateUser,getCurrentUser);
+router.route('/logout').get(logout);
+
+
 
 export default router ;

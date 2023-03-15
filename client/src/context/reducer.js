@@ -25,7 +25,9 @@ import {
     SHOW_STATS_BEGIN,
     SHOW_STATS_SUCCESS,
     CLEAR_FILTERS,
-    CHANGE_PAGE
+    CHANGE_PAGE,
+    GET_CURRENT_USER_BEGIN,
+    GET_CURRENT_USER_SUCCESS
 } from './actions'
 import { intialState } from './appContext'
 
@@ -56,7 +58,6 @@ const reducer = (state, action)=>{
             return {
                 ...state,
                 isLoading: false,
-                token: action.payload.token,
                 user: action.payload.user,
                 userLocation: action.payload.location,
                 jobLocation: action.payload.location,
@@ -80,10 +81,8 @@ const reducer = (state, action)=>{
         case LOGOUT_USER:
             return {
                 ...intialState,
-                user: null,
-                token: null,
-                userLocation: '',
-                jobLocation: ''
+                userLoading: false,
+
             }    
         case UPDATE_USER_BEGIN:
             return {
@@ -94,7 +93,6 @@ const reducer = (state, action)=>{
             return {
                 ...state,
                 isLoading: false,
-                token: action.payload.token,
                 user: action.payload.user,
                 userLocation: action.payload.location,
                 jobLocation: action.payload.location,
@@ -242,6 +240,21 @@ const reducer = (state, action)=>{
             return {
                 ...state,
                 page: action.payload.page
+            }
+        case GET_CURRENT_USER_BEGIN:
+            return {
+                ...state,
+                userLoading: true,
+                showAlert: false
+            }
+        case GET_CURRENT_USER_SUCCESS:
+            return {
+                ...state,
+                userLoading: false,
+                user: action.payload.user,
+                userLocation: action.payload.location,
+                jobLocation: action.payload.location,
+               
             }
         default:
             throw new Error (`no such action : ${action.type}`)
